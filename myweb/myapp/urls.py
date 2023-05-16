@@ -1,9 +1,11 @@
 from django.urls import path
-from myapp import views, oldviews
+from myapp import views
 
 urlpatterns = [
-    # path("", oldviews.todo_login, name="login"), # oldviews.py와 연결
-    path("", oldviews.todo_login, name="login"),
-    path("create", views.main, name="login"),
-    # path("create/", ModulesView.as_view(method=["get"])),
+    path("login/", views.LoginView.as_view(), name="login"),
+    path("main/", views.main, name="main"),
+    path("create/", views.CreateView.as_view(), name="create"),
+    path("read/", views.ReadView.as_view(), name="read"),
+    path("upload/", views.UpdateView.as_view(), name="update"),
+    path("delete/", views.DeleteView.as_view(), name="delete"),
 ]

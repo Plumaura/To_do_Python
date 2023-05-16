@@ -1,181 +1,113 @@
-from typing import Any
 from django.shortcuts import render,redirect
 from django.views import View
 from .models import Users
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
 
-# Class name : CRUDModules
-# def modules => C, R, U, D
+# return render(request, "main.html", returnValues)
+# -----> main.html로 returnValues 값을 가지고 간다
 
-# Create your views here.
+# return HttpResponse("안녕하세요")
+# -----> 해당 링크에서 안녕하세요를 띄운다
 
-"""CRUD Class
-    Based on Create, Read, Update, Delete Model.
-    
-    Now status:
-    - Create : now make
-    - Read : just initialized
-    - Update : just initialized
-    - Delete : just initialized
+# return redirect("main")
+# -----> urls에서 name이 main이라는 url에 연결한다
 
-    Args:
-        Users of models
-    """
-    
+
+class LoginView(View): # 작업중
+    def get(self, request):
+
+        loginForm = AuthenticationForm()
+
+        return render(request, "login.html")
+
+    def post(self, request):
+        loginForm = AuthenticationForm(request.POST)
+        pass
+
+
+# @login_required(데코레이터)가 붙어있는 view는 로그인이 안되어 있으면 무조건 login으로 이동
+@login_required
 def main(request):
-    if request.method== "POST":
-        if request.POST.get("form_type") == "insert_form":
-            modules_Create(request)
-    
-def modules_Create(request):
-    setName = request.get("insert_Name")
-    setId = request.get("insert_Id")
-    setPwd = request.get("insert_Pw")
-            
-    Users.objects.create(userName = setName, userId = setId, userPw = setPwd)
-            
-    reValue = {
-        "test" : "hello",
-        "name" : setName,
-        "id" : setId,
-        "pwd" : setPwd,
+
+    user_all = Users.objects.all()
+    # if selUser == "":
+    # selUser = ""
+
+    returnValues = {
+    "user_all" : user_all,
+    # "selUser" : selUser,
     }
+
+    return render(request, "maintest.html", returnValues)
+
+
+class CreateView(View):
+
+    def get(self, request):
+        # To-do List 작성하는 html과 연결
+
+        return render(request, "main.html")
+
+    def post(self, request):
+        # if request.POST.get("form_type") == "insert_form":
+        regName = request.POST["insert_Name"]
+        regId = request.POST["insert_Id"]
+        regPw = request.POST["insert_Pw"]
+        Users.objects.create(userName = regName, userId = regId, userPw = regPw)
+
+        return redirect("main")
+
+
+class ReadView(View):
+
+    def get(self, request):
+        # To-do List 조회하는 html과 연결
+
+        return render(request, "main.html")
+
+    def post(self, request):
+        select_Id = request.POST["select_Id"]
+        selUser = Users.objects.filter(userId = select_Id) # -----> 값을 여러개 가져올 때 좋음 (제목 및 내용 검색)
+
+        # select_Id = request.POST["select_Id"]
+        # selUser = Users.objects.get(userId = select_Id) -----> 값을 하나만 가져올 때 좋음
+
+        returnValues = {
+            "selUser" : selUser,
+        }
         
-    return render(request, "classtest.html", reValue)
-
-    
-def modules_Read(self, request):
+        return render(request, "view.html", returnValues)
 
 
-    return
+class UpdateView(View):
 
-    
-def modules_Update(self, request):
+    def get(self, request):
+        # To-do List 수정하는 html과 연결
 
-
-    return
-    
-    
-def modules_Delete(self, request):
-
-
-    return
-
-
-
-
-# class CreateView(View):
-#     def __init__(self):
-#         self.user_all = Users.objects.all()
-#         all = "안녕"
-
-#         self.sendValue = {
-#             "user_all" : self.user_all,
-#             "all" : all,
-#         }
-
-#     def get(self, request):
-
-#         return render(request, "main.html", self.sendValue)
-
-#     def post(self, request):
-#         if request.POST.get("form_type") == "insert_form":
-#             regName = request.POST.get("insert_Name")
-#             regId = request.POST.get("insert_Id")
-#             regPw = request.POST.get("insert_Pw")
-#             Users.objects.create(userName = regName, userId = regId, userPw = regPw)
-
-#         return render(request, "main.html", self.sendValue)
-
-# class ReadView(View):
-
-#     def get(self, request):
-#         pass
-
-#     def post(self, request):
-#         pass
-
-# class UpdateView(View):
-
-#     def get(self, request):
-#         pass
-
-#     def post(self, request):
-#         pass
-
-# class DeleteView(View):
-
-#     def get(self, request):
-#         pass
-
-#     def post(self, request):
-#         pass
-
-# class ModulesView(View):
-
-#     def get(self, request):
-#         reValues = {
-#             "test" : "hello",
-#         }
-#         return render(request, "classtest.html", reValues)
-
-#     def create(self, request):
-
-
-#         return
-
-#         # reValues = {
-#         #     "test" : "hello",
-#         # }
+        return render(request, "main.html")
         
-#         # return render(request, "classtest.html", reValues)
 
-    
-#     def modules_Read(self, request):
+    def post(self, request):
+        update_Id = request.POST.get("update_Id")
+        Users.objects.filter(userId = update_Id).update(
+            userName = request.POST.get("update_Name")
+        )
 
-
-#         return
-
-    
-#     def modules_Update(self, request):
+        return redirect("main")
 
 
-#         return
-    
-    
-#     def modules_Delete(self, request):
+class DeleteView(View):
 
+    def get(self, request):
+        # To-do List 삭제하는 html과 연결 # 필요한가?
 
-#         return
-    
+        return render(request, "main.html")
 
+    def post(self, request):
+        # if request.POST.get("form_type") == "delete_form":
+        delete_Name = request.POST.get("delete_Name")
+        delUser = Users.objects.get(userName = delete_Name)
+        delUser.delete()
 
-# # class CRUD_Modules():
-
-# #     def create()
-
-# #     def read()
-
-# #     def update()
-
-# #     def delete()
-
-
-# # class Create():
-# #     def get() # sign up page 접속
-    
-# #     def post() create DB column
-        
-# # class Read():
-# #     def get() # show page 접속
-    
-# #     def post() # SELECT DB column
-        
-# # class Update():
-# #     def get() # modify page 접속
-    
-# #     def post() # UPDATE DB column
-        
-# # class delete():
-# #     def get() # delete page 접속
-    
-# #     def post() DELETE DB column
+        return redirect("main")

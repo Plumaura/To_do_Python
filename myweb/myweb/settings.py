@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# view.py에서 from django.contrib.auth.decorators import login_required 함께 사용
+# @login_required(데코레이터)가 붙어있는 view는 로그인이 안되어 있으면 무조건 login으로 이동
+LOGIN_URL = "login"
 
 # Application definition
 

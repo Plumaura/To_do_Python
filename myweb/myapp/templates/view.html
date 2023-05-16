@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>조회한 정보</h2>
+    
+    {% if selUser %}
+        {% for user in selUser %}
+        <ul>
+            {{ user+1 }}번째 계정 : {{ user.userId }}
+            <li>이름 : {{ user.userName }}</li>
+            <li>아이디 : {{ user.userId }}</li>
+            <li>비밀번호 : {{ user.userPw }}</li>
+        </ul>
+        {% endfor %}
+    {% endif %}
+    <a href="{% url 'main' %}">Main으로 돌아가기</a>
+</body>
+</html>
