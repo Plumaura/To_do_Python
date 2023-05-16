@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+    <title>TestDB</title>
+</head>
+<body>
+    안녕하세요
+    <py-script>
+        talk = "파이스크립트 테스트"
+        print(talk)
+    </py-script>
+    <h2>데이터 SELECT</h2>
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <input type="hidden" name="form_type" value="select_form" />
+        조회할 계정 아이디 : <input type="text" name="select_Id" /><br>
+        <input type="submit" value="입력" /><br>
+    </form>
+    {% if selUser %}
+    <ul>
+        조회한 계정 : {{ selUser.userId }}
+        <li>이름 : {{ selUser.userName }}</li>
+        <li>아이디 : {{ selUser.userId }}</li>
+        <li>비밀번호 : {{ selUser.userPw }}</li>
+    </ul>
+    {% endif %}
+
+    <h2>데이터 INSERT</h2>
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <input type="hidden" name="form_type" value="insert_form" />
+        이름 : <input type="text" name="insert_Name" /><br>
+        아이디 : <input type="text" name="insert_Id" /><br>
+        비밀번호 : <input type="password" name="insert_Pw" /><br>
+        <input type="submit" value="입력" /><br>
+    </form>
+
+    <h2>데이터 DELETE</h2>
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <input type="hidden" name="form_type" value="delete_form" />
+        삭제할 계정 이름 : <input type="text" name="delete_Name" /><br>
+        <input type="submit" value="입력" /><br>
+    </form>
+
+    <h2>데이터 UPDATE</h2>
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <input type="hidden" name="form_type" value="update_form" />
+        수정할 계정 아이디 : <input type="text" name="update_Id" /><br>
+        수정할 이름 : <input type="text" name="update_Name" /><br>
+        <input type="submit" value="입력" /><br>
+    </form>
+
+    <ul>
+        {% for i in user_all %}
+        <li>번호 : {{ i.id }}, 이름 : {{ i.userName }}, 아이디 : {{ i.userId }}, 비밀번호 : {{ i.userPw }}</li>
+        {% endfor %}
+    </ul>
+    
+</body>
+</html>
