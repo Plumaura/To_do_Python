@@ -7,19 +7,6 @@
 # # def modules => C, R, U, D
 
 # # Create your views here.
-
-# """CRUD Class
-#     Based on Create, Read, Update, Delete Model.
-    
-#     Now status:
-#     - Create : now make
-#     - Read : just initialized
-#     - Update : just initialized
-#     - Delete : just initialized
-
-#     Args:
-#         Users of models
-#     """
     
 # def main(request):
 #     if request.method== "POST":

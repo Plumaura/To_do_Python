@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.views import View
-from .models import Users
+from myapp.models import Users
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 
