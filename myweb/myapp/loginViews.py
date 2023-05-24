@@ -11,7 +11,7 @@ from django.shortcuts import render
 from django.views import View
 from .models import Users
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate, login
 
 # return render(request, "main.html", returnValues)
 # -----> main.html로 returnValues 값을 가지고 간다
@@ -26,17 +26,20 @@ from django.contrib.auth.forms import AuthenticationForm
 class LoginView(View): # 작업중
     def get(self, request):
 
-        loginForm = AuthenticationForm(request.POST)
-
         return render(request, "login.html")
 
     def post(self, request):
-        loginForm = AuthenticationForm(request.POST)
-
-        sendVals = {
-            "loginForm" : loginForm
-        }
-        return render(request, "maintest.html", sendVals)
+        userId = request.POST[ "insert_Id"]
+        userPassword = request.POST["insert_Pw"]
+        user = authenticate(request, userId = userId, userPw = userPassword)
+        if user is not None:
+            login(request, user)
+            
+        # loginForm = authenticate()
+        # sendVals = {
+        #     "loginForm" : loginForm
+        # }
+        return render(request, "maintest.html")
 
 
 # @login_required(데코레이터)가 붙어있는 view는 로그인이 안되어 있으면 무조건 login으로 이동
