@@ -7,6 +7,43 @@
     <title>Document</title>
 </head>
 <body>
+    <script>
+        var loginMessage = "{{ loginMessage|escapejs }}";
+        if(loginMessage == "sendLogin")
+        {
+            alert("로그인 후 이용해주세요.");
+            window.location.href = "{% url 'login' %}";
+        }
+    </script>
+    
+    <ul>
+        <h2>세션 데이터</h2>
+        {% if request.session.sessionNum %}
+        <li>세션 아이디 : {{ request.session.sessionNum }}</li>
+        {% else %}
+        <li>세션 값 없음</li>
+        {% endif %}
+    </ul>
+    <a href="{% url 'logout' %}">로그아웃</a><br>
+
+    <br><br><br>
+    <form action="{% url 'login' %}">
+        <button>계정 삭제</button>
+    </form>
+
+    <ul>
+        <h2>유저 정보</h2>
+        {% for i in usersData %}
+        <li>번호 : {{ i.id }}, 이름 : {{ i.userName }}, 아이디 : {{ i.userId }}, 비밀번호 : {{ i.userPw }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>To-Do List 작성</h2>
+    <form method="POST" action="{% url 'logout' %}">
+        <input name="listCheck" type="hidden"  value="1" />
+        제목 : <input name="listTitle" type="text" /><br>
+        내용 : <textarea name="listContent" cols="30" rows="10"></textarea>
+    </form>
     
 </body>
 </html>

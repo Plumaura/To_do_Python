@@ -8,12 +8,28 @@
 </head>
 <body>
     <h2>로그인 HTML</h2>
-    <form method="post" action="{% url 'login' %}">
+    <form method="POST" action="{% url 'login' %}">
         {% csrf_token %}
-        아이디 : <input type="text" name="insert_Id" /><br>
-        비밀번호 : <input type="password" name="insert_Pw" /><br>
+        아이디 : <input type="text" name="loginId" /><br>
+        비밀번호 : <input type="password" name="loginPw" /><br>
         <input type="submit" value="입력" /><br>
+        {% if noneUser %}
+        <p>계정이 존재하지 않습니다</p>
+        {% endif %}
     </form>
-    
+    <br><br><br>
+
+    <a href="{% url 'user_create' %}">회원가입</a>
+
+    <br><br><br>
+
+    <ul>
+        <h2>세션 데이터</h2>
+        {% if request.session.sessionNum %}
+        <li>세션 아이디 : {{ request.session.sessionNum }}</li>
+        {% else %}
+        <li>세션 값 없음</li>
+        {% endif %}
+    </ul>
 </body>
 </html>

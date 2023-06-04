@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>회원가입 HTML</h2>
+    <form method="POST" action="{% url 'user_create' %}" onsubmit="return checkForm()">
+        {% csrf_token %}
+        학번 : <input type="text" name="regNum" id="regNum" value="{{ preNum }}" /><br>
+        아이디 : <input type="text" name="regId" id="regId" value="{{ preId }}" /><br>
+        비밀번호 : <input type="password" name="regPw" id="regPw" value="{{ prePw }}" /><br>
+        비밀번호 확인 : <input type="password" name="regPwC" id="regPwC" value="{{ prePwC }}" /><br>
+        닉네임 : <input type="text" name="regName" id="regName" value="{{ preName }}" /><br>
+        <input type="submit" value="입력" /><br>
+    </form>
+
+
+
+    <script>
+        function checkForm()
+        {
+            var regNum = document.getElementById("regNum").value;
+            var regId = document.getElementById("regId").value;
+            var regPw = document.getElementById("regPw").value;
+            var regPwC = document.getElementById("regPwC").value;
+            var regName = document.getElementById("regName").value;
+
+            if((regNum == "") || (regId == "") || (regPw == "") || (regPwC == "") || (regName == ""))
+            {
+                alert("양식을 모두 작성해주세요");
+                return false;
+            }
+            else if(regPw != regPwC)
+            {
+                alert("비밀번호와 비밀번호 확인이 일치하지 않습니다");
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        var sameNum = "{{ sameNum|escapejs }}";
+        var sameId = "{{ sameId|escapejs }}";
+        var sameName = "{{ sameName|escapejs }}";
+
+        if(sameNum == "sameNum")
+        {
+            alert(sameNum+"이미 존재하는 학번입니다");
+        }
+        else if(sameId == "sameId")
+        {
+            alert("이미 존재하는 아이디입니다");
+        }
+        else if(sameName == "sameName")
+        {
+            alert("이미 존재하는 닉네임입니다");
+        }
+    </script>
+</body>
+</html>

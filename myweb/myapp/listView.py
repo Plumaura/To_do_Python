@@ -11,7 +11,7 @@ Now status (DB에 맞게 수정 예정):
 
 from django.shortcuts import render,redirect
 from django.views import View
-from .models import Users
+from .models import Users, TestUser, TestList
 
 class CreateView(View):
     def get(self, request):
