@@ -72,11 +72,6 @@ class LogoutView(View):
 
 def main(request):
 
-<<<<<<< HEAD
-    sessionId = request.session.get("sessionNum")
-    sesstionTest = request.session.get("sessionNum");
-    print(sessionId, sesstionTest)
-=======
     sessionNum = request.session.get("sessionNum")
 
     if sessionNum is not None:
@@ -86,26 +81,17 @@ def main(request):
             listDo = TestList.objects.filter(userNum = sessionNum, listCheck = 1)
         except TestUser.DoesNotExist:
             pass
->>>>>>> main
 
         sendData = {
             "listTo" : listTo,
             "listDo" : listDo,
         }
 
-        return render(request, "vueLogin.html", {'sessionNum' : sesstionTest})
+        return render(request, "vueLogin.html", {'sessionNum' : sessionNum})
     else:
         loginMessage = "sendLogin"
         sendData = {
             "loginMessage" : loginMessage,
         }
 
-<<<<<<< HEAD
-        return render(request, "vueLogin.html", sendData)
-
-    
-
-    # return render(request, "maintest.html", sendVals)
-=======
         return render(request, "main.html", sendData)
->>>>>>> main
