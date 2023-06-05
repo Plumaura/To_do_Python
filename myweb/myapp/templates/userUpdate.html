@@ -8,11 +8,11 @@
 </head>
 <body>
     <h2>회원 수정 HTML</h2>
-    <form method="POST" action="{% url 'user_create' %}" onsubmit="return checkForm()">
+    <form method="POST" action="{% url 'user_update' %}" onsubmit="return checkForm()">
         {% csrf_token %}
-        닉네임 수정 : <input type="text" name="updateNum" id="updateNum" value="{{ updateName }}" /><br>
-        비밀번호 수정 : <input type="password" name="updatePw" id="updatePw" value="{{ updatePw }}" /><br>
-        비밀번호 확인 : <input type="password" name="updatePwC" id="updatePwC" value="{{ updatePwC }}" /><br>
+        닉네임 수정 : <input type="text" name="updateName" id="updateName" value="{{ preName }}" /><br>
+        비밀번호 수정 : <input type="password" name="updatePw" id="updatePw" value="{{ prePw }}" /><br>
+        비밀번호 확인 : <input type="password" name="updatePwC" id="updatePwC" value="{{ prePwC }}" /><br>
         <input type="submit" value="입력" /><br>
     </form>
 
@@ -39,6 +39,13 @@
         if(sameName == "sameName")
         {
             alert("이미 존재하는 닉네임입니다");
+        }
+
+        var noneData = "{{ noneData|escapejs }}";
+
+        if(noneData == "noneData")
+        {
+            alert("입력된 내용이 없습니다");
         }
     </script>
 </body>

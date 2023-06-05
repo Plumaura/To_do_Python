@@ -14,6 +14,7 @@ urlpatterns = [
     path("list/create/", listView.CreateView.as_view(), name="list_create"),
     path("list/update/", listView.UpdateView.as_view(), name="list_update"),
     path("list/delete/", listView.DeleteView.as_view(), name="list_delete"),
+    path("list/change/", listView.ChangeView.as_view(), name="list_change"),
     
     # path("create/", userView.CreateView.as_view(), name="create"),
     # path("read/", userView.ReadView.as_view(), name="read"),

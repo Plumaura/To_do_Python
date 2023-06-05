@@ -11,73 +11,92 @@ Now status (DB에 맞게 수정 예정):
 
 from django.shortcuts import render,redirect
 from django.views import View
-from .models import Users, TestUser, TestList
+from .models import TestUser, TestList
 
 class CreateView(View):
     def get(self, request):
-        # To-do List 작성하는 html과 연결
-
-        return render(request, "main.html")
-
-    def post(self, request):
-        # if request.POST.get("form_type") == "insert_form":
-        regName = request.POST["insert_Name"]
-        regId = request.POST["insert_Id"]
-        regPw = request.POST["insert_Pw"]
-        Users.objects.create(userName = regName, userId = regId, userPw = regPw)
-
         return redirect("main")
 
-
-class ReadView(View):
-
-    def get(self, request):
-        # To-do List 조회하는 html과 연결
-
-        return render(request, "main.html")
-
     def post(self, request):
-        select_Id = request.POST["select_Id"]
-        selUser = Users.objects.filter(userId = select_Id) # -----> 값을 여러개 가져올 때 좋음 (제목 및 내용 검색)
+        sessionNum = request.session.get("sessionNum")
+        userNum = TestUser.objects.get(userNum = sessionNum)
+        createTitle = request.POST["createTitle"]
+        createContent = request.POST["createContent"]
+        createCheck = request.POST["createCheck"]
 
-        # select_Id = request.POST["select_Id"]
-        # selUser = Users.objects.get(userId = select_Id) -----> 값을 하나만 가져올 때 좋음
-
-        sendVals = {
-            "selUser" : selUser,
-        }
+        TestList.objects.create(userNum = userNum, listTitle = createTitle, 
+                                listContent = createContent, listCheck = createCheck)
         
-        return render(request, "view.html", sendVals)
-
+        return redirect("main")
 
 class UpdateView(View):
 
     def get(self, request):
-        # To-do List 수정하는 html과 연결
-
-        return render(request, "main.html")
-        
-
-    def post(self, request):
-        update_Id = request.POST.get("update_Id")
-        Users.objects.filter(userId = update_Id).update(
-            userName = request.POST.get("update_Name")
-        )
-
         return redirect("main")
 
+    def post(self, request):
+        updateNum = request.POST["finishNum"]
+        sessionNum = request.session.get("sessionNum")
+        userNum = TestUser.objects.get(userNum = sessionNum)
+        updateTitle = request.POST["updateTitle"]
+        updateContent = request.POST["updateContent"]
+
+        try:
+            finishList = TestList.objects.filter(listNum = updateNum, userNum = userNum)
+        except TestList.DoesNotExist:
+            pass
+
+        if len(finishList) != 0:
+            noneUpdate = "noneUpdate"
+            sendData = {
+                "noneUpdate" : noneUpdate
+            }
+
+            return render(request, "userUpdate.html")
+        else:
+            finishList.update(listCheck = 1)
+
+            return redirect("main")
 
 class DeleteView(View):
 
     def get(self, request):
-        # To-do List 삭제하는 html과 연결 # 필요한가?
+        sessionNum = request.session.get("sessionNum")
+        delUser = TestUser.objects.get(userNum = sessionNum)
+        delUser.delete()
+        request.session.clear()
 
-        return render(request, "main.html")
+        return redirect("login")
 
     def post(self, request):
-        # if request.POST.get("form_type") == "delete_form":
-        delete_Name = request.POST.get("delete_Name")
-        delUser = Users.objects.get(userName = delete_Name)
+        sessionNum = request.session.get("sessionNum")
+        delUser = TestUser.objects.get(userNum = sessionNum)
         delUser.delete()
+        request.session.clear()
 
+        return redirect("login")
+    
+class ChangeView(View):
+
+    def get(self, request):
         return redirect("main")
+
+    def post(self, request):
+        changeNum = request.POST["changeNum"]
+        sessionNum = request.session.get("sessionNum")
+        userNum = TestUser.objects.get(userNum = sessionNum)
+
+        try:
+            changeList = TestList.objects.filter(listNum = changeNum, userNum = userNum)
+        except TestList.DoesNotExist:
+            pass
+
+        print(changeList)
+
+        if len(changeList) != 0:
+            return redirect("main")
+        else:
+            changeList.update(listCheck = 1)
+            print("여긴 들어옴?")
+
+            return redirect("main")
