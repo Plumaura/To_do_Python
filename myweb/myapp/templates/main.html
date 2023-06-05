@@ -55,6 +55,7 @@
         <form method="POST" action="{% url 'list_change' %}">
             {% csrf_token %}
             <input type="hidden" name="changeNum" id="changeNum" value="{{ i.listNum }}" />
+            <input type="hidden" name="typeList" value="valueTo" />
             <button>완료</button>
         </form>
         <button onclick="openModal('{{ i.listNum }}', '{{ i.listTitle }}', '{{ i.listContent }}')">수정</button>
@@ -69,10 +70,8 @@
     To List가 비었습니다
     {% endif %}
 
-    
-        
-
     <br><br>
+
     {% if listDo %}
     {% for i in listDo %}
     <div>
@@ -80,6 +79,20 @@
     </div>
     <div>
         Do 내용 : {{ i.listContent }}
+    </div>
+    <div>
+        <form method="POST" action="{% url 'list_change' %}">
+            {% csrf_token %}
+            <input type="hidden" name="changeNum" id="changeNum" value="{{ i.listNum }}" />
+            <input type="hidden" name="typeList" value="valueDo" />
+            <button>복구</button>
+        </form>
+        <button onclick="openModal('{{ i.listNum }}', '{{ i.listTitle }}', '{{ i.listContent }}')">수정</button>
+        <form method="POST" action="{% url 'list_delete' %}">
+            {% csrf_token %}
+            <input type="hidden" name="deleteNum" id="deleteNum" value="{{ i.listNum }}" />
+            <button>삭제</button>
+        </form>
     </div>
     {% endfor %}
     {% else %}

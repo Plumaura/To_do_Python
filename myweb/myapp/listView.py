@@ -35,46 +35,59 @@ class UpdateView(View):
         return redirect("main")
 
     def post(self, request):
-        updateNum = request.POST["finishNum"]
+        updateNum = request.POST["updateNum"]
         sessionNum = request.session.get("sessionNum")
         userNum = TestUser.objects.get(userNum = sessionNum)
         updateTitle = request.POST["updateTitle"]
         updateContent = request.POST["updateContent"]
 
         try:
-            finishList = TestList.objects.filter(listNum = updateNum, userNum = userNum)
+            updateList = TestList.objects.filter(listNum = updateNum, userNum = userNum)
         except TestList.DoesNotExist:
             pass
 
-        if len(finishList) != 0:
-            noneUpdate = "noneUpdate"
-            sendData = {
-                "noneUpdate" : noneUpdate
-            }
+        if len(updateList) != 0:
+            updateList.update(listTitle = updateTitle, listContent = updateContent)
 
-            return render(request, "userUpdate.html")
+            return redirect("main")
         else:
-            finishList.update(listCheck = 1)
-
             return redirect("main")
 
 class DeleteView(View):
 
     def get(self, request):
+        deleteNum = request.POST["deleteNum"]
         sessionNum = request.session.get("sessionNum")
-        delUser = TestUser.objects.filter(userNum = sessionNum)
-        delUser.delete()
-        request.session.clear()
+        userNum = TestUser.objects.get(userNum = sessionNum)
 
-        return redirect("login")
+        try:
+            deleteList = TestList.objects.filter(listNum = deleteNum, userNum = userNum)
+        except TestList.DoesNotExist:
+            pass
+
+        if len(deleteList) != 0:
+            deleteList.delete()
+
+            return redirect("main")
+        else:
+            return redirect("main")
 
     def post(self, request):
+        deleteNum = request.POST["deleteNum"]
         sessionNum = request.session.get("sessionNum")
-        delUser = TestUser.objects.get(userNum = sessionNum)
-        delUser.delete()
-        request.session.clear()
+        userNum = TestUser.objects.get(userNum = sessionNum)
 
-        return redirect("login")
+        try:
+            deleteList = TestList.objects.filter(listNum = deleteNum, userNum = userNum)
+        except TestList.DoesNotExist:
+            pass
+
+        if len(deleteList) != 0:
+            deleteList.delete()
+
+            return redirect("main")
+        else:
+            return redirect("main")
     
 class ChangeView(View):
 
@@ -83,6 +96,7 @@ class ChangeView(View):
 
     def post(self, request):
         changeNum = request.POST["changeNum"]
+        typeList = request.POST["typeList"]
         sessionNum = request.session.get("sessionNum")
         userNum = TestUser.objects.get(userNum = sessionNum)
 
@@ -91,11 +105,11 @@ class ChangeView(View):
         except TestList.DoesNotExist:
             pass
 
-        print(changeList)
-
-        if len(changeList) != 0:
+        if typeList == "valueTo":
             changeList.update(listCheck = 1)
-
+            
             return redirect("main")
-        else:
+        elif typeList == "valueDo":
+            changeList.update(listCheck = 0)
+
             return redirect("main")
