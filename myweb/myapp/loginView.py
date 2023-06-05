@@ -26,7 +26,7 @@ from .models import Users, TestUser, TestList
 class LoginView(View): # 작업중
     def get(self, request):
 
-        return render(request, "login.html")
+        return render(request, "userLogin.html")
 
     def post(self, request):
         loginId = request.POST["loginId"]
@@ -74,6 +74,8 @@ class LogoutView(View):
 def main(request):
 
     sessionId = request.session.get("sessionNum")
+    sesstionTest = request.session.get("sessionNum");
+    print(sessionId)
 
     if sessionId is not None:
         usersData = Users.objects.all()
@@ -81,14 +83,14 @@ def main(request):
             "usersData" : usersData,
         }
 
-        return render(request, "main.html", sendData)
+        return render(request, "vueLogin.html", {'sessionNum' : sesstionTest})
     else:
         loginMessage = "sendLogin"
         sendData = {
             "loginMessage" : loginMessage,
         }
 
-        return render(request, "main.html", sendData)
+        return render(request, "vueLogin.html", sendData)
 
     
 
