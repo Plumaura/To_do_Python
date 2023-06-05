@@ -11,7 +11,7 @@ Now status (DB에 맞게 수정 예정):
 
 from django.shortcuts import render,redirect
 from django.views import View
-from .models import Users, TestUser, TestList
+from .models import TestUser, TestList
 
 class CreateView(View):
     def get(self, request):
@@ -28,8 +28,6 @@ class CreateView(View):
         sameId = "notSame"
         sameName = "notSame"
 
-        print(regNum, regId, regPw, regPwC, regName) # 테스트용 나중에 지워
-
         try:
             checkNum = TestUser.objects.filter(userNum = regNum)
             checkId = TestUser.objects.filter(userId = regId)
@@ -37,18 +35,15 @@ class CreateView(View):
         except TestUser.DoesNotExist:
             pass
 
-        print(checkNum, checkId, checkName) # 테스트용 나중에 지워
+        print(checkNum, checkId, checkName)
 
         if len(checkNum) != 0:
-            print("sameNum 있음") # 테스트용 나중에 지워
             sameNum = "sameNum"
 
         if len(checkId) != 0:
-            print("sameId 있음") # 테스트용 나중에 지워
             sameId = "sameId"
 
         if len(checkName) != 0:
-            print("sameName 있음") # 테스트용 나중에 지워
             sameName = "sameName"
 
         sendData = {
@@ -73,57 +68,89 @@ class UpdateView(View):
         updatePwC = request.POST["updatePwC"]
         updateName = request.POST["updateName"]
 
+        sessionNum = request.session.get("sessionNum")
         sameName = "notSame"
 
         try:
             checkName = TestUser.objects.filter(userName = updateName)
         except TestUser.DoesNotExist:
             pass
-        # 작업중 if문
-        TestUser.objects.filter(userName = updateName).update(
-            userName = updateName
-        )
 
         if len(checkName) != 0:
-            print("sameName 있음") # 테스트용 나중에 지워
             sameName = "sameName"
+            sendData = {
+                "sameName" : sameName,
+                "prePw" : updatePw, "prePwC" : updatePwC, "preName" : updateName,
+            }
 
-        sendData = {
-            "sameName" : sameName
-        }
+            return render(request, "userUpdate.html", sendData)
+        else:
+            if (updateName != "") and (updatePw != ""):
+                TestUser.objects.filter(userNum = sessionNum).update(
+                    userName = updateName,
+                    userPw = updatePw
+                )
+                request.session['sessionName'] = updateName
 
-        return redirect("main")
+                return redirect("main")
+            elif(updateName != "") and (updatePw == ""):
+                TestUser.objects.filter(userNum = sessionNum).update(
+                    userName = updateName
+                )
+                request.session['sessionName'] = updateName
+
+                return redirect("main")
+            elif(updateName == "") and (updatePw != ""):
+                TestUser.objects.filter(userNum = sessionNum).update(
+                    userPw = updatePw
+                )
+
+                return redirect("main")
+            elif(updateName == "") and (updatePw == ""):
+                noneData = "noneData"
+
+                sendData = {
+                    "noneData" : noneData
+                }
+
+                return render(request, "userUpdate.html", sendData)
 
 class DeleteView(View):
 
     def get(self, request):
-        return render(request, "main.html")
+        sessionNum = request.session.get("sessionNum")
+        delUser = TestUser.objects.get(userNum = sessionNum)
+        delUser.delete()
+        request.session.clear()
+
+        return redirect("login")
 
     def post(self, request):
-        deleteNum = request.POST["updateNum"]
-        delUser = Users.objects.get(userNum = deleteNum)
+        sessionNum = request.session.get("sessionNum")
+        delUser = TestUser.objects.get(userNum = sessionNum)
         delUser.delete()
+        request.session.clear()
 
         return redirect("login")
     
 
 
-class ReadView(View):
+# class ReadView(View): 필요없을 듯?
 
-    def get(self, request):
-        # To-do List 조회하는 html과 연결
+#     def get(self, request):
+#         # To-do List 조회하는 html과 연결
 
-        return render(request, "main.html")
+#         return render(request, "main.html")
 
-    def post(self, request):
-        select_Id = request.POST["select_Id"]
-        selUser = Users.objects.filter(userId = select_Id) # -----> 값을 여러개 가져올 때 좋음 (제목 및 내용 검색)
+#     def post(self, request):
+#         select_Id = request.POST["select_Id"]
+#         selUser = Users.objects.filter(userId = select_Id) # -----> 값을 여러개 가져올 때 좋음 (제목 및 내용 검색)
 
-        # select_Id = request.POST["select_Id"]
-        # selUser = Users.objects.get(userId = select_Id) -----> 값을 하나만 가져올 때 좋음
+#         # select_Id = request.POST["select_Id"]
+#         # selUser = Users.objects.get(userId = select_Id) -----> 값을 하나만 가져올 때 좋음
 
-        sendVals = {
-            "selUser" : selUser,
-        }
+#         sendVals = {
+#             "selUser" : selUser,
+#         }
         
-        return render(request, "view.html", sendVals)
+#         return render(request, "view.html", sendVals)

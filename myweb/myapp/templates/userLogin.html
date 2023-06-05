@@ -26,9 +26,17 @@
     <ul>
         <h2>세션 데이터</h2>
         {% if request.session.sessionNum %}
-        <li>세션 아이디 : {{ request.session.sessionNum }}</li>
+        <li>세션 학번 : {{ request.session.sessionNum }}</li>
         {% else %}
-        <li>세션 값 없음</li>
+        <li>세션 학번 없음</li>
+        {% endif %}
+    </ul>
+    <ul>
+        <h2>세션 데이터</h2>
+        {% if request.session.sessionName %}
+        <li>세션 이름 : {{ request.session.sessionName }}</li>
+        {% else %}
+        <li>세션 이름 없음</li>
         {% endif %}
     </ul>
 </body>

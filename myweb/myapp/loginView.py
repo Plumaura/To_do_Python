@@ -9,7 +9,7 @@ Login View
 
 from django.shortcuts import render, redirect
 from django.views import View
-from .models import Users, TestUser, TestList
+from .models import TestUser, TestList
 # from django.contrib.auth import authenticate, login
 # from django.contrib.auth.decorators import login_required
 
@@ -22,8 +22,12 @@ from .models import Users, TestUser, TestList
 # return redirect("main")
 # -----> urls에서 name이 main이라는 url에 연결한다
 
+# @login_required(데코레이터)가 붙어있는 view는 로그인이 안되어 있으면 무조건 login으로 이동
+# user = authenticate(request, userId = insertId, userPw = insertPw)
+# login(request, user)
 
-class LoginView(View): # 작업중
+
+class LoginView(View):
     def get(self, request):
 
         return render(request, "userLogin.html")
@@ -41,6 +45,7 @@ class LoginView(View): # 작업중
             
         if loginUser is not None:
             request.session['sessionNum'] = loginUser.userNum
+            request.session['sessionName'] = loginUser.userName
             print(request.session['sessionNum'])
             print("로그인 성공")
 
@@ -50,37 +55,42 @@ class LoginView(View): # 작업중
             sendData = {
                 "noneUser" : noneUser,
             }
-            return render(request, "login.html", sendData)
-
-        
-        # user = authenticate(request, userId = insertId, userPw = insertPw)
-        # login(request, user)
+            return render(request, "userLogin.html", sendData)
 
 class LogoutView(View):
     def get(self, request):
         del request.session['sessionNum']
+        request.session.clear()
         
         return redirect("login")
 
     def post(self, request):
         del request.session['sessionNum']
+        request.session.clear()
 
         return redirect("login")
-    
-
-
-# @login_required(데코레이터)가 붙어있는 view는 로그인이 안되어 있으면 무조건 login으로 이동
 
 def main(request):
 
+<<<<<<< HEAD
     sessionId = request.session.get("sessionNum")
     sesstionTest = request.session.get("sessionNum");
     print(sessionId, sesstionTest)
+=======
+    sessionNum = request.session.get("sessionNum")
 
-    if sessionId is not None:
-        usersData = Users.objects.all()
+    if sessionNum is not None:
+
+        try:
+            listTo = TestList.objects.filter(userNum = sessionNum, listCheck = 0)
+            listDo = TestList.objects.filter(userNum = sessionNum, listCheck = 1)
+        except TestUser.DoesNotExist:
+            pass
+>>>>>>> main
+
         sendData = {
-            "usersData" : usersData,
+            "listTo" : listTo,
+            "listDo" : listDo,
         }
 
         return render(request, "vueLogin.html", {'sessionNum' : sesstionTest})
@@ -90,8 +100,12 @@ def main(request):
             "loginMessage" : loginMessage,
         }
 
+<<<<<<< HEAD
         return render(request, "vueLogin.html", sendData)
 
     
 
     # return render(request, "maintest.html", sendVals)
+=======
+        return render(request, "main.html", sendData)
+>>>>>>> main
