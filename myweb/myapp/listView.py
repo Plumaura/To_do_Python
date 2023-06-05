@@ -62,7 +62,7 @@ class DeleteView(View):
 
     def get(self, request):
         sessionNum = request.session.get("sessionNum")
-        delUser = TestUser.objects.get(userNum = sessionNum)
+        delUser = TestUser.objects.filter(userNum = sessionNum)
         delUser.delete()
         request.session.clear()
 
@@ -94,9 +94,8 @@ class ChangeView(View):
         print(changeList)
 
         if len(changeList) != 0:
+            changeList.update(listCheck = 1)
+
             return redirect("main")
         else:
-            changeList.update(listCheck = 1)
-            print("여긴 들어옴?")
-
             return redirect("main")

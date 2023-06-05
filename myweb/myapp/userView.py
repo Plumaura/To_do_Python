@@ -119,7 +119,7 @@ class DeleteView(View):
 
     def get(self, request):
         sessionNum = request.session.get("sessionNum")
-        delUser = TestUser.objects.get(userNum = sessionNum)
+        delUser = TestUser.objects.filter(userNum = sessionNum)
         delUser.delete()
         request.session.clear()
 
@@ -127,7 +127,7 @@ class DeleteView(View):
 
     def post(self, request):
         sessionNum = request.session.get("sessionNum")
-        delUser = TestUser.objects.get(userNum = sessionNum)
+        delUser = TestUser.objects.filter(userNum = sessionNum)
         delUser.delete()
         request.session.clear()
 
