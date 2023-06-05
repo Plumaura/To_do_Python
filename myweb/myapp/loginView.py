@@ -75,7 +75,7 @@ def main(request):
 
     sessionId = request.session.get("sessionNum")
     sesstionTest = request.session.get("sessionNum");
-    print(sessionId)
+    print(sessionId, sesstionTest)
 
     if sessionId is not None:
         usersData = Users.objects.all()

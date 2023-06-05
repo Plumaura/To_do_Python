@@ -1,16 +1,23 @@
 <script src="https://unpkg.com/vue@3"></script>
 
 <div id="app">
-		<h1>
-			session : {{ sessionData }}
-		</h1>
+  <h1>session : {{ sessionNum }}</h1>
 </div>
 
 <script>
-	new Vue({
-		el : "#app",
-		data: {
-			sessionData : sessionNum,
-		}
-	});
+  const sessionNum = sessionNum.sessionTest;
+  new Vue({
+    el: "#app",
+    delimiters: ["[[", "]]"],
+    data: {
+      sessionNum: "",
+    },
+  });
 </script>
+
+<style>
+  #app {
+    border: 1px solid black;
+    text-align: center;
+  }
+</style>
