@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>회원 수정 HTML</h2>
+    <form method="POST" action="{% url 'user_create' %}" onsubmit="return checkForm()">
+        {% csrf_token %}
+        닉네임 수정 : <input type="text" name="updateNum" id="updateNum" value="{{ updateName }}" /><br>
+        비밀번호 수정 : <input type="password" name="updatePw" id="updatePw" value="{{ updatePw }}" /><br>
+        비밀번호 확인 : <input type="password" name="updatePwC" id="updatePwC" value="{{ updatePwC }}" /><br>
+        <input type="submit" value="입력" /><br>
+    </form>
+
+    <script>
+        function checkForm()
+        {
+            var updateName = document.getElementById("updateName").value;
+            var updatePw = document.getElementById("updatePw").value;
+            var updatePwC = document.getElementById("updatePwC").value;
+
+            if(updatePw != updatePwC)
+            {
+                alert("비밀번호와 비밀번호 확인이 일치하지 않습니다");
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        var sameName = "{{ sameName|escapejs }}";
+
+        if(sameName == "sameName")
+        {
+            alert("이미 존재하는 닉네임입니다");
+        }
+    </script>
+</body>
+</html>

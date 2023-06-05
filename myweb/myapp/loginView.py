@@ -73,8 +73,6 @@ class LogoutView(View):
 
 def main(request):
 
-    
-
     sessionId = request.session.get("sessionNum")
 
     if sessionId is not None:

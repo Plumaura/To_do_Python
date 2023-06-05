@@ -27,7 +27,12 @@
     <a href="{% url 'logout' %}">로그아웃</a><br>
 
     <br><br><br>
-    <form action="{% url 'login' %}">
+    <form action="{% url 'user_update' %}">
+        <button>계정 수정</button>
+    </form>
+
+    <br><br><br>
+    <form action="{% url 'user_delete' %}">
         <button>계정 삭제</button>
     </form>
 
