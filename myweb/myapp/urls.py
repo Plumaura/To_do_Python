@@ -4,8 +4,11 @@ from myapp import loginView, userView, listView
 urlpatterns = [
     path("login/", loginView.LoginView.as_view(), name="login"),
     path("logout/", loginView.LogoutView.as_view(), name="logout"),
-
+    
+    path("vueLogin/", loginView.main, name='vue'),
     path("main/", loginView.main, name="main"),
+    
+    path("searchTest/", loginView.main, name="login"),
 
     path("user/create/", userView.CreateView.as_view(), name="user_create"),
     path("user/update/", userView.UpdateView.as_view(), name="user_update"),

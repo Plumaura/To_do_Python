@@ -87,7 +87,7 @@ def main(request):
             "listDo" : listDo,
         }
 
-        return render(request, "main.html", sendData)
+        return render(request, "vueLogin.html", {'sessionNum' : sessionNum})
     else:
         loginMessage = "sendLogin"
         sendData = {
