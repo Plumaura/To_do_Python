@@ -100,3 +100,6 @@ def main(request):
         }
 
         return render(request, "mainVue.html", sendData)
+    
+def linkedLogin(request):
+    return redirect("login")

@@ -1,21 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>userUpdate</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.29/vue.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{% static 'css/manage.css' %}" />
 </head>
 <body>
-    <h2>회원 수정 HTML</h2>
-    <form method="POST" action="{% url 'user_update' %}" onsubmit="return checkForm()">
-        {% csrf_token %}
-        닉네임 수정 : <input type="text" name="updateName" id="updateName" value="{{ preName }}" /><br>
-        비밀번호 수정 : <input type="password" name="updatePw" id="updatePw" value="{{ prePw }}" /><br>
-        비밀번호 확인 : <input type="password" name="updatePwC" id="updatePwC" value="{{ prePwC }}" /><br>
-        <input type="submit" value="입력" /><br>
-    </form>
-
+    <div id="app" class="relative">
+        <center><h2 style="font-size: 52px">Todo list</h2></center>
+        <div class="loginContent w-full max-w-xs" style="margin: auto">
+          <form action="{% url 'user_update' %}" method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onsubmit="return checkForm()">
+            {% csrf_token %}
+            <div class="mb-6">
+              <label class="block text-gray-700 text-sm font-bold mb-2" for="username"> Change Nickname </label>
+              <input
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                id="updateName"
+                name="updateName"
+                type="text"
+                value="{{ preName }}"
+                placeholder="닉네임"
+              />
+            </div>
+            <div class="mb-6">
+              <label class="block text-gray-700 text-sm font-bold mb-2" for="password"> Change Password </label>
+              <input
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                id="updatePw"
+                name="updatePw"
+                type="password"
+                value="{{ prePw }}"
+                placeholder="패스워드"
+              />
+            </div>
+            <div class="mb-6">
+              <label class="block text-gray-700 text-sm font-bold mb-2" for="password"> Check Password </label>
+              <input
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                id="updatePwC"
+                name="updatePwC"
+                type="password"
+                value="{{ prePwC }}"
+                placeholder="패스워드 확인"
+              />
+            </div>
+            <div class="flex items-center justify-center">
+              <input
+                class="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                type="submit"
+                value="변경"
+              />
+            </div>
+          </form>
+        </div>
+    </div>
     <script>
         function checkForm()
         {

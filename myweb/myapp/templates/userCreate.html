@@ -1,25 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="UTF-8" />
+    <title>userCreate</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.29/vue.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{% static 'css/manage.css' %}" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
 </head>
 <body>
-    <h2>회원가입 HTML</h2>
-    <form method="POST" action="{% url 'user_create' %}" onsubmit="return checkForm()">
-        {% csrf_token %}
-        학번 : <input type="text" name="regNum" id="regNum" value="{{ preNum }}" /><br>
-        아이디 : <input type="text" name="regId" id="regId" value="{{ preId }}" /><br>
-        비밀번호 : <input type="password" name="regPw" id="regPw" value="{{ prePw }}" /><br>
-        비밀번호 확인 : <input type="password" name="regPwC" id="regPwC" value="{{ prePwC }}" /><br>
-        닉네임 : <input type="text" name="regName" id="regName" value="{{ preName }}" /><br>
-        <input type="submit" value="입력" /><br>
-    </form>
-
-
-
+    <div id="app" class="relative">
+        <center><h2 style="font-size: 52px">Todo list</h2></center>
+        <div class="loginContent w-full max-w-xs" style="margin: auto">
+          <form action="{% url 'user_create' %}" method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onsubmit="return checkForm()">
+            {% csrf_token %}
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="regNum"> Student ID </label>
+                <input
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="regNum"
+                  name="regNum"
+                  type="text"
+                  value="{{ preNum }}"
+                  placeholder="학번"
+                />
+            </div>
+            <div class="mb-6">
+              <label class="block text-gray-700 text-sm font-bold mb-2" for="regId"> ID </label>
+              <input
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="regId"
+                name="regId"
+                type="text"
+                value="{{ preId }}"
+                placeholder="아이디"
+              />
+            </div>
+            <div class="mb-6">
+              <label class="block text-gray-700 text-sm font-bold mb-2" for="regPw"> Password </label>
+              <input
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="regPw"
+                name="regPw"
+                type="password"
+                value="{{ prePw }}"
+                placeholder="패스워드"
+              />
+            </div>
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="regPwC"> Check Password </label>
+                <input
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="regPwC"
+                  name="regPwC"
+                  type="password"
+                  value="{{ prePwC }}"
+                  placeholder="패스워드 확인"
+                />
+            </div>
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="regName"> Nickname </label>
+                <input
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="regName"
+                  name="regName"
+                  type="text"
+                  value="{{ preName }}"
+                  placeholder="닉네임"
+                />
+            </div>
+            <div class="flex items-center justify-center">
+              <input
+              class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                type="submit"
+                value="회원가입"
+              />
+              </button>
+            </div>
+          </form>
+        </div>
+    </div>
     <script>
         function checkForm()
         {
