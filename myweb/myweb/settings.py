@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "myapp",
+    "tailwind",
 ]
 
 MIDDLEWARE = [
@@ -84,9 +85,9 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "tester",
-        "USER": "root",
-        "PASSWORD": "maria",
-        "HOST": "localhost",
+        "USER": "admin",
+        "PASSWORD": "asdf",
+        "HOST": "192.168.35.181",
         "PORT": "3306",
     }
 }

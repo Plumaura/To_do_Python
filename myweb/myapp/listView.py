@@ -49,9 +49,9 @@ class UpdateView(View):
         if len(updateList) != 0:
             updateList.update(listTitle = updateTitle, listContent = updateContent)
 
-            return redirect("main")
+            return redirect("toLayer")
         else:
-            return redirect("main")
+            return redirect("toLayer")
 
 class DeleteView(View):
 
@@ -68,9 +68,9 @@ class DeleteView(View):
         if len(deleteList) != 0:
             deleteList.delete()
 
-            return redirect("main")
+            return redirect("toLayer")
         else:
-            return redirect("main")
+            return redirect("toLayer")
 
     def post(self, request):
         deleteNum = request.POST["deleteNum"]
@@ -85,9 +85,9 @@ class DeleteView(View):
         if len(deleteList) != 0:
             deleteList.delete()
 
-            return redirect("main")
+            return redirect("toLayer")
         else:
-            return redirect("main")
+            return redirect("toLayer")
     
 class ChangeView(View):
 

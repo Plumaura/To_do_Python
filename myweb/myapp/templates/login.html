@@ -7,13 +7,28 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.29/vue.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{% static 'css/manage.css' %}" />
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
   </head>
   <body>
     <div id="app" class="relative">
-      <center><h2 style="font-size: 52px">Todo list</h2></center>
+      <center>
+        <h1 class="mb-4 text-4xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
+          <button
+            disabled="disabled"
+            class="relative inline-flex items-center justify-center p-1 mb-2 mr-2 overflow-hidden text-4xl font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800"
+          >
+            <div
+              id="title"
+              class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0"
+            >
+              To-do
+            </div>
+          </button>
+          <p id="slo" class="tracking-tighter text-gray-500 md:text-lg dark:text-gray-400">
+            계획적 이고,<br />
+            성실하게<br />일정을 관리 해 보세요.
+          </p>
+        </h1>
+      </center>
       <div class="loginContent w-full max-w-xs" style="margin: auto">
         <form action="{% url 'login' %}" method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
           {% csrf_token %}

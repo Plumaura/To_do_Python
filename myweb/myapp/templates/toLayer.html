@@ -1,27 +1,48 @@
 {% load static %}
 <script src="https://unpkg.com/vue@3"></script>
 <script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="{% static 'css/manage.css' %}" />
 
 <div id="app">
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
       <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr>
-          <th scope="col" class="px-6 py-3">check</th>
+          <th scope="col" class="px-6 py-3">삭제 하기</th>
           <th scope="col" class="px-6 py-3">내용</th>
           <th scope="col" class="px-6 py-3">할 일</th>
-          <th scope="col" class="px-6 py-3">수정</th>
+          <th scope="col" class="px-6 py-3">완료 하기</th>
         </tr>
       </thead>
       <tbody>
-        {% if listTo %} {% for Tolist in listTo %}
+        {% if listTo %} {% for ToList in listTo %}
         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ Tolist.listNum }}</th>
+          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            <form action="{% url 'list_delete' %}" method="post">
+              {% csrf_token %}
+              <input type="hidden" name="deleteNum" value="{{ ToList.listNum }}" />
+              <button style="font-size: 40px; color: red">&times;</button>
+            </form>
+          </th>
           <td class="px-6 py-4">{{ ToList.listTitle }}</td>
           <td class="px-6 py-4">{{ ToList.listContent }}</td>
-          <td class="px-6 py-4">
-            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+          <td class="py-3">
+            <form action="{% url 'list_change' %}" method="post" style="margin-bottom: 0">
+              {% csrf_token %}
+              <button
+                type="button"
+                class="text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2"
+              >
+                완료하기
+              </button>
+            </form>
+            <!-- <button
+              id="modalButton"
+              type="button"
+              onclick="openModal('{{ ToList.listNum}}', '{{ToList.listTitle}}', '{{ToList.listContent}}')"
+              class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:focus:ring-yellow-900"
+            >
+              수정하기
+            </button> -->
           </td>
         </tr>
         {% endfor %} {% else %}
@@ -30,19 +51,63 @@
           <td class="px-6 py-4">Empty</td>
           <td class="px-6 py-4">Empty</td>
           <td class="px-6 py-4">
-            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+            <button id="edit">수정하기</button>
+            <div id="modalUp" class="modal">
+              <div class="modal-content">
+                <span class="close">&times;</span>
+                <p>some text in modal</p>
+              </div>
+            </div>
           </td>
         </tr>
         {% endif %}
       </tbody>
     </table>
   </div>
+  <div id="updateModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <form method="POST" action="{% url 'list_update' %}">
+        {% csrf_token %}
+        <input type="hidden" name="updateNum" id="updateNum" value="{{ i.listNum }}" />
+        <label for="title">제목:</label><input type="text" id="updateTitle" name="updateTitle" /> <label for="content">내용:</label
+        ><textarea id="updateContent" name="updateContent"></textarea>
+        <button type="submit">저장</button>
+      </form>
+    </div>
+  </div>
 </div>
 <script>
   const parselist = {
     listTo: "{{ listTo | escapejs }}",
-    listDo: "{{ listDo | escapejs }}",
   };
+  document.getElementById("updateModal").style.display = "none";
+
+  const button = document.getElementById("modalButton");
+  const modal = document.getElementById("updateModal");
+  const spanClose = document.getElementById("close")[0];
+
+  button.onclick = function () {
+    modal.style.display = "block";
+  };
+  spanClose.onclick = function () {
+    modal.style.display = "none";
+  };
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  };
+
+  function openModal(listNum, listTitle, listContent) {
+    document.getElementById("updateNum").value = listNum;
+    document.getElementById("updateTitle").value = listTitle;
+    document.getElementById("updateContent").value = listContent;
+    document.getElementById("updateModal").style.display = "block";
+  }
+  function closeModal() {
+    document.getElementById("updateModal").style.display = "none";
+  }
   new Vue({
     el: "#app",
     delimiters: ["[[", "]]"],

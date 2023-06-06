@@ -71,9 +71,35 @@ class LogoutView(View):
 
         return redirect("login")
 
-class formTest(View):
+class toLayer(View):
     def get(self, request):
-        return render(request, "toLayer.html")
+        sessionNum = request.session.get("sessionNum")
+        try:
+            listToTest = TestList.objects.filter(userNum = sessionNum, listCheck = 0)
+
+        except TestUser.DoesNotExist:
+            print("리스트가 없습니다")
+
+        sendData = {
+            "listTo" : listToTest,
+        }
+        
+        return render(request, "toLayer.html", sendData)
+    
+class doLayer(View):
+    def get(self, request):
+        sessionNum = request.session.get("sessionNum")
+        try:
+            listDoTest = TestList.objects.filter(userNum = sessionNum, listCheck = 1)
+
+        except TestUser.DoesNotExist:
+            print("리스트가 없습니다")
+
+        sendData = {
+            "listDo" : listDoTest,
+        }
+        
+        return render(request, "doLayer.html", sendData)
 
 def main(request):
     sessionNum = request.session.get("sessionNum")
@@ -81,23 +107,18 @@ def main(request):
     if sessionNum is not None:
 
         try:
-            listToTest = list(TestList.objects.filter(userNum = sessionNum, listCheck = 0).values())
-            listDoTest = list(TestList.objects.filter(userNum = sessionNum, listCheck = 1).values())
-                
-            listToJson = json.dumps(listToTest)
-            listDoJson = json.dumps(listDoTest)
-            
-            print("BackEnd : ",type(listToJson), type(listDoJson))
+            listToTest = TestList.objects.filter(userNum = sessionNum, listCheck = 0)
+            listDoTest = TestList.objects.filter(userNum = sessionNum, listCheck = 1)
+
         except TestUser.DoesNotExist:
             print("리스트가 없습니다")
 
         sendData = {
             "sessionNum" : sessionNum,
             "sessionName" : sessionName,
-            "listTo" : listToJson,
-            "listDo" : listDoJson,
+            "listTo" : listToTest,
+            "listDo" : listDoTest,
         }
-        print("sendData BackEnd",type(sendData))
         
         return render(request, "mainVue.html", sendData)
     else:

@@ -6,7 +6,8 @@ urlpatterns = [
     path("", loginView.linkedLogin),
     path("login/", loginView.LoginView.as_view(), name="login"),
     path("logout/", loginView.LogoutView.as_view(), name="logout"),
-    path("toLayout/", loginView.formTest.as_view() , name='toLayer'),
+    path("toLayout/", loginView.toLayer.as_view() , name='toLayer'),
+    path("doLayout/", loginView.doLayer.as_view() , name='doLayer'),
     path("mainVue/", loginView.main, name='main'),
     # path("main/", loginView.main, name="main"),
     

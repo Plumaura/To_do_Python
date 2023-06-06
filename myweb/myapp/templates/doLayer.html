@@ -1,0 +1,51 @@
+{% load static %}
+<script src="https://unpkg.com/vue@3"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<div id="app">
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+          <th scope="col" class="px-6 py-3">check</th>
+          <th scope="col" class="px-6 py-3">내용</th>
+          <th scope="col" class="px-6 py-3">끝낸 일</th>
+          <th scope="col" class="px-6 py-3">수정</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if listDo %} {% for DoList in listDo %}
+        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ DoList.listNum }}</th>
+          <td class="px-6 py-4">{{ DoList.listTitle }}</td>
+          <td class="px-6 py-4">{{ DoList.listContent }}</td>
+          <td class="px-6 py-4">
+            <a href="{% url 'list_update' %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">수정하기</a>
+          </td>
+        </tr>
+        {% endfor %} {% else %}
+        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">Empty</th>
+          <td class="px-6 py-4">Empty</td>
+          <td class="px-6 py-4">Empty</td>
+          <td class="px-6 py-4">
+            <a href="{% url 'list_update' %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">수정하기</a>
+          </td>
+        </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<script>
+  const parselist = {
+    listDo: "{{ listDo | escapejs }}",
+  };
+  new Vue({
+    el: "#app",
+    delimiters: ["[[", "]]"],
+    data: {
+      listDo: parselist.listDo,
+    },
+  });
+</script>
