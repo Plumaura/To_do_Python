@@ -13,9 +13,9 @@ Selected To list, Do list
   content: "";
   margin-left: 10%;
   margin-right: -7.5%;
-  margin-top: 19.5%;
+  margin-top: 10%;
   display: block;
-  height: 300px;
+  height: 450px;
   border-left: 2px dotted black;
 }
 
@@ -54,12 +54,12 @@ Selected To list, Do list
 }
 .sideContent #slo {
   text-align: left;
-  margin-bottom: 20%;
+  margin-bottom: 3%;
 }
 
 .accountInfo {
   text-align: left;
-  margin-top: 30%;
+  margin-top: 40%;
   font-size: 24px;
 }
 .util {

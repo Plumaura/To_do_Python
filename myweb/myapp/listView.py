@@ -15,17 +15,16 @@ from .models import TestUser, TestList
 
 class CreateView(View):
     def get(self, request):
-        return redirect("main")
+        return render(request, "createList.html")
 
     def post(self, request):
         sessionNum = request.session.get("sessionNum")
         userNum = TestUser.objects.get(userNum = sessionNum)
         createTitle = request.POST["createTitle"]
         createContent = request.POST["createContent"]
-        createCheck = request.POST["createCheck"]
 
         TestList.objects.create(userNum = userNum, listTitle = createTitle, 
-                                listContent = createContent, listCheck = createCheck)
+                                listContent = createContent, listCheck = 0)
         
         return redirect("main")
 
@@ -108,8 +107,8 @@ class ChangeView(View):
         if typeList == "valueTo":
             changeList.update(listCheck = 1)
             
-            return redirect("main")
+            return redirect("toLayer")
         elif typeList == "valueDo":
             changeList.update(listCheck = 0)
 
-            return redirect("main")
+            return redirect("doLayer")

@@ -43,8 +43,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_browser_reload",
     "myapp",
-    "tailwind",
 ]
 
 MIDDLEWARE = [
@@ -54,6 +54,7 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
     # "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
@@ -77,7 +78,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "myweb.wsgi.application"
 
-
+CELERY_ALWAYS_RELOAD = True
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 

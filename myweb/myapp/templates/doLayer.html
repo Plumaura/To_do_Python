@@ -7,20 +7,40 @@
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
       <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr>
-          <th scope="col" class="px-6 py-3">check</th>
-          <th scope="col" class="px-6 py-3">내용</th>
-          <th scope="col" class="px-6 py-3">끝낸 일</th>
-          <th scope="col" class="px-6 py-3">수정</th>
+          <th scope="col" class="truncate px-6 py-3">삭제 하기</th>
+          <th scope="col" class="truncate px-6 py-3">내용</th>
+          <th scope="col" class="truncate px-6 py-3">끝낸 일</th>
+          <th scope="col" class="truncate px-6 py-3">복구하기</th>
         </tr>
       </thead>
       <tbody>
         {% if listDo %} {% for DoList in listDo %}
         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ DoList.listNum }}</th>
+          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            <form action="{% url 'list_delete' %}" method="post">
+              {% csrf_token %}
+              <input type="hidden" name="deleteNum" value="{{ ToList.listNum }}" />
+              <button style="font-size: 40px; color: red">&times;</button>
+            </form>
+          </th>
           <td class="px-6 py-4">{{ DoList.listTitle }}</td>
           <td class="px-6 py-4">{{ DoList.listContent }}</td>
-          <td class="px-6 py-4">
-            <a href="{% url 'list_update' %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">수정하기</a>
+          <td class="py-3">
+            <form action="{% url 'list_change' %}" method="post" style="margin-bottom: 0">
+              {% csrf_token %}
+              <input type="hidden" name="changeNum" value="{{ DoList.listNum }}" />
+              <input type="hidden" name="typeList" value="valueDo" />
+              <button
+                onclick="parent.reloadParentPage()"
+                class="relative inline-flex items-center justify-center p-0.5 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800"
+              >
+                <span
+                  class="truncate relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0"
+                >
+                  복구하기
+                </span>
+              </button>
+            </form>
           </td>
         </tr>
         {% endfor %} {% else %}
@@ -28,9 +48,7 @@
           <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">Empty</th>
           <td class="px-6 py-4">Empty</td>
           <td class="px-6 py-4">Empty</td>
-          <td class="px-6 py-4">
-            <a href="{% url 'list_update' %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">수정하기</a>
-          </td>
+          <td class="px-6 py-4">Empty</td>
         </tr>
         {% endif %}
       </tbody>
@@ -38,6 +56,9 @@
   </div>
 </div>
 <script>
+  function reloadParentPage() {
+    parent.location.reload();
+  }
   const parselist = {
     listDo: "{{ listDo | escapejs }}",
   };
