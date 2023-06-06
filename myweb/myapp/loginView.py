@@ -10,6 +10,7 @@ Login View
 from django.shortcuts import render, redirect
 from django.views import View
 from .models import TestUser, TestList
+import json
 # from django.contrib.auth import authenticate, login
 # from django.contrib.auth.decorators import login_required
 
@@ -80,18 +81,24 @@ def main(request):
     if sessionNum is not None:
 
         try:
-            listTo = TestList.objects.filter(userNum = sessionNum, listCheck = 0)
-            listDo = TestList.objects.filter(userNum = sessionNum, listCheck = 1)
+            listToTest = list(TestList.objects.filter(userNum = sessionNum, listCheck = 0).values())
+            listDoTest = list(TestList.objects.filter(userNum = sessionNum, listCheck = 1).values())
+                
+            listToJson = json.dumps(listToTest)
+            listDoJson = json.dumps(listDoTest)
+            
+            print("BackEnd : ",type(listToJson), type(listDoJson))
         except TestUser.DoesNotExist:
-            pass
+            print("리스트가 없습니다")
 
         sendData = {
             "sessionNum" : sessionNum,
             "sessionName" : sessionName,
-            "listTo" : listTo,
-            "listDo" : listDo,
+            "listTo" : listToJson,
+            "listDo" : listDoJson,
         }
-
+        print("sendData BackEnd",type(sendData))
+        
         return render(request, "mainVue.html", sendData)
     else:
         loginMessage = "sendLogin"

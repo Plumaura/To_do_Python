@@ -4,16 +4,12 @@ Selected To list, Do list
  */
 .mainContent {
   float: left;
-  margin: auto;
-  height: fit-content;
   width: fit-content;
   border: 1px solid black;
 }
 
 .toLayer,
 .doLayer {
-  width: 500px;
-  margin-top: 3%;
   border: 1px solid red;
   text-align: center;
 }
@@ -21,6 +17,9 @@ Selected To list, Do list
 .toBox,
 .doBox {
   margin-top: 15%;
+}
+.doBox {
+  border: 1px solid black;
 }
 
 .sideContent {
