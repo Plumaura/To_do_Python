@@ -3,9 +3,10 @@ from myapp import loginView, userView, listView
 
 urlpatterns = [
     # path("login/", loginView.LoginView.as_view(), name="login"),
+    path("", loginView.LoginView.as_view()),
     path("login/", loginView.LoginView.as_view(), name="login"),
     path("logout/", loginView.LogoutView.as_view(), name="logout"),
-    path("toLayer", name='toLayer'),
+    path("toLayout/", loginView.formTest.as_view() , name='toLayer'),
     path("mainVue/", loginView.main, name='main'),
     # path("main/", loginView.main, name="main"),
     

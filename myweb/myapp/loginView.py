@@ -72,7 +72,7 @@ class LogoutView(View):
 
 class formTest(View):
     def get(self, request):
-        return redirect("toLayer")
+        return render(request, "toLayer.html")
 
 def main(request):
     sessionNum = request.session.get("sessionNum")

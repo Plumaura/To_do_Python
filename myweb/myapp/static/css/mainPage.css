@@ -4,7 +4,7 @@ Selected To list, Do list
  */
 .mainContent {
   float: left;
-  margin-right: 0%;
+  margin: auto;
   height: fit-content;
   width: fit-content;
   border: 1px solid black;
@@ -12,9 +12,9 @@ Selected To list, Do list
 
 .toLayer,
 .doLayer {
-  margin: 15%;
+  width: 500px;
   margin-top: 3%;
-  border: 1px solid black;
+  border: 1px solid red;
   text-align: center;
 }
 
@@ -26,7 +26,7 @@ Selected To list, Do list
 .sideContent {
   float: right;
   height: max-content;
-  width: fit-content;
+  width: max-content;
   border: 1px solid black;
   text-align: center;
 }

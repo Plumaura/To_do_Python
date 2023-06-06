@@ -5,11 +5,12 @@
 
 <div id="app" class="relative container flex flex-row">
   <div class="mainContent flex flex-row flex-auto">
-    <div class="toLayer flex flex-col">
+    <div class="toLayer basis-1/2 flex flex-col">
       <h3>To list</h3>
+      <iframe src="{% url 'toLayer' %}" frameborder="0"></iframe>
       <div class="toBox">{{ listTo }}</div>
     </div>
-    <div class="doLayer flex flex-col m1-auto">
+    <div class="doLayer basis-1/2 flex flex-col">
       <h3>Do list</h3>
       <div class="doBox">{{ listDo }}</div>
     </div>
