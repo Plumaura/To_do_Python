@@ -1,150 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     <ul>
-        <h2>세션 데이터</h2>
-        {% if request.session.sessionNum %}
-        <li>세션 학번 : {{ request.session.sessionNum }}</li>
-        {% else %}
-        <li>세션 학번 없음</li>
-        {% endif %}
+      <h2>세션 데이터</h2>
+      {% if request.session.sessionNum %}
+      <li>세션 학번 : {{ request.session.sessionNum }}</li>
+      {% else %}
+      <li>세션 학번 없음</li>
+      {% endif %}
     </ul>
     <ul>
-        <h2>세션 데이터</h2>
-        {% if request.session.sessionName %}
-        <li>세션 이름 : {{ request.session.sessionName }}</li>
-        {% else %}
-        <li>세션 이름 없음</li>
-        {% endif %}
+      <h2>세션 데이터</h2>
+      {% if request.session.sessionName %}
+      <li>세션 이름 : {{ request.session.sessionName }}</li>
+      {% else %}
+      <li>세션 이름 없음</li>
+      {% endif %}
     </ul>
-    <a href="{% url 'logout' %}">로그아웃</a><br>
+    <a href="{% url 'logout' %}">로그아웃</a><br />
 
-    <br>
+    <br />
     <form action="{% url 'user_update' %}">
-        <button>계정 수정</button>
+      <button>계정 수정</button>
     </form>
     <form action="{% url 'user_delete' %}">
-        <button>계정 삭제</button>
+      <button>계정 삭제</button>
     </form>
 
     <h2>To-Do List 작성</h2>
     <form method="POST" action="{% url 'list_create' %}" onsubmit="return createList()">
-        {% csrf_token %}
-        <input type="hidden" name="createCheck" id="createCheck" value="0" />
-        제목 : <input type="text" name="createTitle" id="createTitle" /><br>
-        내용 : <textarea name="createContent" id="createContent" rows="10"></textarea>
-        <input type="submit" value="입력" /><br>
+      {% csrf_token %}
+      <input type="hidden" name="createCheck" id="createCheck" value="0" />
+      제목 : <input type="text" name="createTitle" id="createTitle" /><br />
+      내용 : <textarea name="createContent" id="createContent" rows="10"></textarea> <input type="submit" value="입력" /><br />
     </form>
-    <br><br>
+    <br /><br />
 
-    {% if listTo %}
-    {% for i in listTo %}
+    {% if listTo %} {% for i in listTo %}
+    <div>To 할일 : {{ i.listTitle }}</div>
+    <div>To 내용 : {{ i.listContent }}</div>
     <div>
-        To 할일 : {{ i.listTitle }}
+      <form method="POST" action="{% url 'list_change' %}">
+        {% csrf_token %}
+        <input type="hidden" name="changeNum" id="changeNum" value="{{ i.listNum }}" />
+        <input type="hidden" name="typeList" value="valueTo" />
+        <button>완료</button>
+      </form>
+      <button onclick="openModal('{{ i.listNum }}', '{{ i.listTitle }}', '{{ i.listContent }}')">수정</button>
+      <form method="POST" action="{% url 'list_delete' %}">
+        {% csrf_token %}
+        <input type="hidden" name="deleteNum" id="deleteNum" value="{{ i.listNum }}" />
+        <button>삭제</button>
+      </form>
     </div>
-    <div>
-        To 내용 : {{ i.listContent }}
-    </div>
-    <div>
-        <form method="POST" action="{% url 'list_change' %}">
-            {% csrf_token %}
-            <input type="hidden" name="changeNum" id="changeNum" value="{{ i.listNum }}" />
-            <input type="hidden" name="typeList" value="valueTo" />
-            <button>완료</button>
-        </form>
-        <button onclick="openModal('{{ i.listNum }}', '{{ i.listTitle }}', '{{ i.listContent }}')">수정</button>
-        <form method="POST" action="{% url 'list_delete' %}">
-            {% csrf_token %}
-            <input type="hidden" name="deleteNum" id="deleteNum" value="{{ i.listNum }}" />
-            <button>삭제</button>
-        </form>
-    </div>
-    {% endfor %}
-    {% else %}
-    To List가 비었습니다
-    {% endif %}
+    {% endfor %} {% else %} To List가 비었습니다 {% endif %}
 
-    <br><br>
+    <br /><br />
 
-    {% if listDo %}
-    {% for i in listDo %}
+    {% if listDo %} {% for i in listDo %}
+    <div>Do 할일 : {{ i.listTitle }}</div>
+    <div>Do 내용 : {{ i.listContent }}</div>
     <div>
-        Do 할일 : {{ i.listTitle }}
+      <form method="POST" action="{% url 'list_change' %}">
+        {% csrf_token %}
+        <input type="hidden" name="changeNum" id="changeNum" value="{{ i.listNum }}" />
+        <input type="hidden" name="typeList" value="valueDo" />
+        <button>복구</button>
+      </form>
+      <button onclick="openModal('{{ i.listNum }}', '{{ i.listTitle }}', '{{ i.listContent }}')">수정</button>
+      <form method="POST" action="{% url 'list_delete' %}">
+        {% csrf_token %}
+        <input type="hidden" name="deleteNum" id="deleteNum" value="{{ i.listNum }}" />
+        <button>삭제</button>
+      </form>
     </div>
-    <div>
-        Do 내용 : {{ i.listContent }}
-    </div>
-    <div>
-        <form method="POST" action="{% url 'list_change' %}">
-            {% csrf_token %}
-            <input type="hidden" name="changeNum" id="changeNum" value="{{ i.listNum }}" />
-            <input type="hidden" name="typeList" value="valueDo" />
-            <button>복구</button>
-        </form>
-        <button onclick="openModal('{{ i.listNum }}', '{{ i.listTitle }}', '{{ i.listContent }}')">수정</button>
-        <form method="POST" action="{% url 'list_delete' %}">
-            {% csrf_token %}
-            <input type="hidden" name="deleteNum" id="deleteNum" value="{{ i.listNum }}" />
-            <button>삭제</button>
-        </form>
-    </div>
-    {% endfor %}
-    {% else %}
-    Do List가 비었습니다
-    {% endif %}
+    {% endfor %} {% else %} Do List가 비었습니다 {% endif %}
 
     <div id="updateModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <form method="POST" action="{% url 'list_update' %}">
-                {% csrf_token %}
-                <input type="hidden" name="updateNum" id="updateNum" value="{{ i.listNum }}" />
-                <label for="title">제목:</label><input type="text" id="updateTitle" name="updateTitle">
-                <label for="content">내용:</label><textarea id="updateContent" name="updateContent"></textarea>
-                <button type="submit">저장</button>
-            </form>
-        </div>
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <form method="POST" action="{% url 'list_update' %}">
+          {% csrf_token %}
+          <input type="hidden" name="updateNum" id="updateNum" value="{{ i.listNum }}" />
+          <label for="title">제목:</label><input type="text" id="updateTitle" name="updateTitle" /> <label for="content">내용:</label
+          ><textarea id="updateContent" name="updateContent"></textarea>
+          <button type="submit">저장</button>
+        </form>
+      </div>
     </div>
 
     <script>
-        var loginMessage = "{{ loginMessage|escapejs }}";
-        if(loginMessage == "sendLogin")
-        {
-            alert("로그인 후 이용해주세요");
-            window.location.href = "{% url 'login' %}";
+      var loginMessage = "{{ loginMessage|escapejs }}";
+      if (loginMessage == "sendLogin") {
+        alert("로그인 후 이용해주세요");
+        window.location.href = "{% url 'login' %}";
+      }
+
+      function createList() {
+        var createTitle = document.getElementById("createTitle").value;
+        var createContent = document.getElementById("createContent").value;
+
+        if (createTitle == "" || createContent == "") {
+          alert("양식을 모두 작성해주세요");
+          return false;
         }
+      }
 
-        function createList()
-        {
-            var createTitle = document.getElementById("createTitle").value;
-            var createContent = document.getElementById("createContent").value;
+      document.getElementById("updateModal").style.display = "none";
 
-            if((createTitle == "") || (createContent == ""))
-            {
-                alert("양식을 모두 작성해주세요");
-                return false;
-            }
-        }
-
+      function openModal(listNum, listTitle, listContent) {
+        document.getElementById("updateNum").value = listNum;
+        document.getElementById("updateTitle").value = listTitle;
+        document.getElementById("updateContent").value = listContent;
+        document.getElementById("updateModal").style.display = "block";
+      }
+      function closeModal() {
         document.getElementById("updateModal").style.display = "none";
-
-        function openModal(listNum, listTitle, listContent)
-        {
-            document.getElementById("updateNum").value = listNum;
-            document.getElementById("updateTitle").value = listTitle;
-            document.getElementById("updateContent").value = listContent;
-            document.getElementById("updateModal").style.display = "block";
-        }
-        function closeModal()
-        {
-            document.getElementById("updateModal").style.display = "none";
-        }
+      }
     </script>
-</body>
+  </body>
 </html>

@@ -1,0 +1,50 @@
+/* 
+Main content CSS area
+Selected To list, Do list
+ */
+.mainContent {
+  float: left;
+  margin-right: 0%;
+  height: fit-content;
+  width: fit-content;
+  border: 1px solid black;
+}
+
+.toLayer,
+.doLayer {
+  margin: 15%;
+  margin-top: 3%;
+  border: 1px solid black;
+  text-align: center;
+}
+
+.toBox,
+.doBox {
+  margin-top: 15%;
+}
+
+.sideContent {
+  float: right;
+  height: max-content;
+  width: fit-content;
+  border: 1px solid black;
+  text-align: center;
+}
+
+.sideContent #title {
+  font-size: 40px;
+}
+
+.accountInfo {
+  margin-top: 50%;
+  border: 1px solid black;
+  font-size: 24px;
+}
+
+.settingAccount {
+  margin-top: 80%;
+}
+
+.logoutButton {
+  margin-top: 17.5%;
+}

@@ -1,16 +1,55 @@
+{% load static %}
 <script src="https://unpkg.com/vue@3"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="{% static 'css/manage.css' %}" />
 
-<div id="app">
-  <h1>session : {{ sessionNum }}</h1>
+<div id="app" class="relative container flex flex-row">
+  <div class="mainContent flex flex-row flex-auto">
+    <div class="toLayer flex flex-col">
+      <h3>To list</h3>
+      <div class="toBox">{{ listTo }}</div>
+    </div>
+    <div class="doLayer flex flex-col m1-auto">
+      <h3>Do list</h3>
+      <div class="doBox">{{ listDo }}</div>
+    </div>
+  </div>
+  <div class="sideContent flex flex-col w-40">
+    <span id="title">To-do</span>
+    <div class="accountInfo">
+      <h2>session : {{ sessionNum }}</h2>
+      <div id="accountNum">num : {{ sessionNum }}</div>
+      <div id="accountName">name : {{ sessionName }}</div>
+    </div>
+    <div class="settingAccount">
+      <button>설정</button>
+    </div>
+    <div class="logoutButton">
+      <a
+        href="{% url 'logout' %}"
+        class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+        >로그아웃</a
+      >
+    </div>
+  </div>
 </div>
 
 <script>
-  const sessionNum = sessionNum.sessionTest;
+  const loginMessage = "{{ loginMessage|escapejs }}";
+  if (loginMessage == "sendLogin") {
+    alert("로그인 후 이용해주세요 !!");
+    window.location.href = "{% url 'login' %}";
+  }
+  const sessionData = {
+    sessionNum: "{{ sessionNum | escapejs }}",
+    sessionName: "{{ sessionName | escapejs }}",
+  };
   new Vue({
     el: "#app",
     delimiters: ["[[", "]]"],
     data: {
-      sessionNum: "",
+      num: sessionData.sessionNum,
+      name: sessionData.sessionName,
     },
   });
 </script>
@@ -18,6 +57,7 @@
 <style>
   #app {
     border: 1px solid black;
-    text-align: center;
+    margin: auto;
+    margin-top: 12.5%;
   }
 </style>

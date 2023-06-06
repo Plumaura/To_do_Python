@@ -30,7 +30,7 @@ from .models import TestUser, TestList
 class LoginView(View):
     def get(self, request):
 
-        return render(request, "userLogin.html")
+        return render(request, "login.html")
 
     def post(self, request):
         loginId = request.POST["loginId"]
@@ -55,7 +55,7 @@ class LoginView(View):
             sendData = {
                 "noneUser" : noneUser,
             }
-            return render(request, "userLogin.html", sendData)
+            return render(request, "login.html", sendData)
 
 class LogoutView(View):
     def get(self, request):
@@ -70,10 +70,13 @@ class LogoutView(View):
 
         return redirect("login")
 
+class formTest(View):
+    def get(self, request):
+        return redirect("toLayer")
+
 def main(request):
-
     sessionNum = request.session.get("sessionNum")
-
+    sessionName= request.session.get("sessionName")
     if sessionNum is not None:
 
         try:
@@ -83,15 +86,17 @@ def main(request):
             pass
 
         sendData = {
+            "sessionNum" : sessionNum,
+            "sessionName" : sessionName,
             "listTo" : listTo,
             "listDo" : listDo,
         }
 
-        return render(request, "vueLogin.html", {'sessionNum' : sessionNum})
+        return render(request, "mainVue.html", sendData)
     else:
         loginMessage = "sendLogin"
         sendData = {
             "loginMessage" : loginMessage,
         }
 
-        return render(request, "main.html", sendData)
+        return render(request, "mainVue.html", sendData)
