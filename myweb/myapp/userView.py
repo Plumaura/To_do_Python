@@ -65,55 +65,33 @@ class UpdateView(View):
 
     def post(self, request):
         updatePw = request.POST["updatePw"]
+        updatePwU = request.POST["updatePwU"]
         updatePwC = request.POST["updatePwC"]
-        updateName = request.POST["updateName"]
 
         sessionNum = request.session.get("sessionNum")
-        sameName = "notSame"
+        notSame = "same"
 
         try:
-            checkName = TestUser.objects.filter(userName = updateName)
+            checkUser = TestUser.objects.filter(userNum = sessionNum).first()
         except TestUser.DoesNotExist:
             pass
 
-        if len(checkName) != 0:
-            sameName = "sameName"
+        if(checkUser.userPw != updatePw):
+            notSame = "notSame"
+
             sendData = {
-                "sameName" : sameName,
-                "prePw" : updatePw, "prePwC" : updatePwC, "preName" : updateName,
+                "notSame" : notSame,
+                "prePw" : updatePw, "prePwU" : updatePwU, "prePwC" : updatePwC,
             }
 
             return render(request, "userUpdate.html", sendData)
         else:
-            if (updateName != "") and (updatePw != ""):
-                TestUser.objects.filter(userNum = sessionNum).update(
-                    userName = updateName,
-                    userPw = updatePw
-                )
-                request.session['sessionName'] = updateName
+            TestUser.objects.filter(userNum = sessionNum).update(
+                    userPw = updatePwC
+            )
+            return redirect("main")
 
-                return redirect("main")
-            elif(updateName != "") and (updatePw == ""):
-                TestUser.objects.filter(userNum = sessionNum).update(
-                    userName = updateName
-                )
-                request.session['sessionName'] = updateName
-
-                return redirect("main")
-            elif(updateName == "") and (updatePw != ""):
-                TestUser.objects.filter(userNum = sessionNum).update(
-                    userPw = updatePw
-                )
-
-                return redirect("main")
-            elif(updateName == "") and (updatePw == ""):
-                noneData = "noneData"
-
-                sendData = {
-                    "noneData" : noneData
-                }
-
-                return render(request, "userUpdate.html", sendData)
+                
 
 class DeleteView(View):
 

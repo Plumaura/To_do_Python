@@ -33,21 +33,10 @@
         </h1>
       </center>
       <div class="loginContent w-full max-w-xs" style="margin: auto">
-        <form action="{% url 'user_update' %}" method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onsubmit="return checkForm()">
+        <form action="{% url 'pw_update' %}" method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onsubmit="return checkForm()">
           {% csrf_token %}
           <div class="mb-6">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="username"> 닉네임 변경 </label>
-            <input
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              id="updateName"
-              name="updateName"
-              type="text"
-              value="{{ preName }}"
-              placeholder="nickname"
-            />
-          </div>
-          <div class="mb-6">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="password"> 비밀번호 변경 </label>
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="updatePw"> 현재 비밀번호 </label>
             <input
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
               id="updatePw"
@@ -55,6 +44,17 @@
               type="password"
               value="{{ prePw }}"
               placeholder="password"
+            />
+          </div>
+          <div class="mb-6">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="updatePwU"> 비밀번호 변경 </label>
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+              id="updatePwU"
+              name="updatePwU"
+              type="password"
+              value="{{ prePw }}"
+              placeholder="password edit"
             />
           </div>
           <div class="mb-6">
@@ -80,8 +80,8 @@
     </div>
     <script>
       function checkForm() {
-        var updateName = document.getElementById("updateName").value;
         var updatePw = document.getElementById("updatePw").value;
+        var updatePw = document.getElementById("updatePwC").value;
         var updatePwC = document.getElementById("updatePwC").value;
 
         if (updatePw != updatePwC) {
