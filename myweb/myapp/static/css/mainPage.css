@@ -59,7 +59,7 @@ Selected To list, Do list
 
 .accountInfo {
   text-align: left;
-  margin-top: 40%;
+  margin-top: 20%;
   font-size: 24px;
 }
 .util {
@@ -72,4 +72,5 @@ Selected To list, Do list
 
 .logoutButton {
   margin-top: 20%;
+  margin-bottom: 20%;
 }
