@@ -23,7 +23,7 @@
               id="title"
               class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0"
             >
-              To-do
+              To-Pass
             </div>
           </button>
           <p id="slo" class="tracking-tighter text-gray-500 md:text-lg dark:text-gray-400">
@@ -70,7 +70,7 @@
           </div>
           <div class="flex items-center justify-center">
             <input
-              class="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+              class="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2"
               type="submit"
               value="변경"
             />
@@ -84,18 +84,13 @@
         var updatePwU = document.getElementById("updatePwU").value;
         var updatePwC = document.getElementById("updatePwC").value;
 
-        if((updatePw == "") || (updatePwU == "") || (updatePwC == ""))
-        {
+        if (updatePw == "" || updatePwU == "" || updatePwC == "") {
           alert("양식을 모두 작성해주세요");
           return false;
-        }
-        else if(updatePwU != updatePwC)
-        {
+        } else if (updatePwU != updatePwC) {
           alert("비밀번호와 비밀번호 확인이 일치하지 않습니다");
           return false;
-        }
-        else
-        {
+        } else {
           return true;
         }
       }
