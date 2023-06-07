@@ -56,6 +56,7 @@ class DeleteView(View):
 
     def get(self, request):
         deleteNum = request.POST["deleteNum"]
+        typeList = request.POST["typeList"]
         sessionNum = request.session.get("sessionNum")
         userNum = TestUser.objects.get(userNum = sessionNum)
 
@@ -64,15 +65,18 @@ class DeleteView(View):
         except TestList.DoesNotExist:
             pass
 
-        if len(deleteList) != 0:
+        if typeList == "valueTo":
+            deleteList.delete()
+            
+            return redirect("toLayer")
+        elif typeList == "valueDo":
             deleteList.delete()
 
-            return redirect("toLayer")
-        else:
-            return redirect("toLayer")
+            return redirect("doLayer")
 
     def post(self, request):
         deleteNum = request.POST["deleteNum"]
+        typeList = request.POST["typeList"]
         sessionNum = request.session.get("sessionNum")
         userNum = TestUser.objects.get(userNum = sessionNum)
 
@@ -81,12 +85,14 @@ class DeleteView(View):
         except TestList.DoesNotExist:
             pass
 
-        if len(deleteList) != 0:
+        if typeList == "valueTo":
+            deleteList.delete()
+            
+            return redirect("toLayer")
+        elif typeList == "valueDo":
             deleteList.delete()
 
-            return redirect("toLayer")
-        else:
-            return redirect("toLayer")
+            return redirect("doLayer")
     
 class ChangeView(View):
 

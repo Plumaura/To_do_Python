@@ -20,6 +20,7 @@
             <form action="{% url 'list_delete' %}" method="post">
               {% csrf_token %}
               <input type="hidden" name="deleteNum" value="{{ ToList.listNum }}" />
+              <input type="hidden" name="typeList" value="valueTo" />
               <button style="font-size: 40px; color: red">&times;</button>
             </form>
           </th>
@@ -31,7 +32,7 @@
               <input type="hidden" name="changeNum" value="{{ ToList.listNum }}" />
               <input type="hidden" name="typeList" value="valueTo" />
               <button
-                onclick="parent.reloadParentPage()"
+                onclick="parent.reMain()"
                 class="truncate text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-4 focus:outline-none focus:ring-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2"
               >
                 완료하기
@@ -72,8 +73,8 @@
   </div>
 </div>
 <script>
-  function reloadParentPage() {
-    parent.location.reload();
+  window.parentReload = function() {
+    parentPage.reloadMain();
   }
   const parselist = {
     listTo: "{{ listTo | escapejs }}",

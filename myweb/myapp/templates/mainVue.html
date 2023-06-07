@@ -87,6 +87,14 @@
     iframe.src = iframe.src;
   }
 
+  function reloadServer() {
+        window.location.reload();
+    }
+  /* window를 붙여서 범위를 전역으로 변환 */
+  window.reMain = function(){
+    window.location.reload();
+  };
+
   const loginMessage = "{{ loginMessage|escapejs }}";
   if (loginMessage == "sendLogin") {
     alert("로그인 후 이용해주세요 !!");

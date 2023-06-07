@@ -19,7 +19,8 @@
           <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             <form action="{% url 'list_delete' %}" method="post">
               {% csrf_token %}
-              <input type="hidden" name="deleteNum" value="{{ ToList.listNum }}" />
+              <input type="hidden" name="deleteNum" value="{{ DoList.listNum }}" />
+              <input type="hidden" name="typeList" value="valueDo" />
               <button style="font-size: 40px; color: red">&times;</button>
             </form>
           </th>
@@ -31,7 +32,7 @@
               <input type="hidden" name="changeNum" value="{{ DoList.listNum }}" />
               <input type="hidden" name="typeList" value="valueDo" />
               <button
-                onclick="parent.reloadParentPage()"
+                onclick="parent.reMain()"
                 class="relative inline-flex items-center justify-center p-0.5 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800"
               >
                 <span
@@ -56,8 +57,9 @@
   </div>
 </div>
 <script>
+  const parentPage = window.parent;
   function reloadParentPage() {
-    parent.location.reload();
+    parentPage.reloadMain();
   }
   const parselist = {
     listDo: "{{ listDo | escapejs }}",
