@@ -1,4 +1,7 @@
 {% load static %}
+<script src="https://unpkg.com/vue@3"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="{% static 'css/manage.css' %}" />
 <div id="app">
   <div id="app" class="relative">
     <center>
@@ -25,7 +28,7 @@
         {% csrf_token %}
         <div class="mb-6">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="username">현재 닉네임</label>
-          <h3>{{ request.session.sessionName }}</h3>
+          <div class="text-2xl font-black text-gray-900 dark:text-dark">{{ request.session.sessionName }}</div>
         </div>
         <div class="mb-6">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="username"> 닉네임 변경 </label>

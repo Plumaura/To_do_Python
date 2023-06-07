@@ -14,7 +14,7 @@ urlpatterns = [
 
     path("user/create/", userView.CreateView.as_view(), name="user_create"),
     path("user/pwUpdate/", userView.UpdateView.as_view(), name="pw_update"),
-    path("user/nickUpdate/", userView.UpdateView.as_view(), name="nick_update"),
+    path("user/nickUpdate/", userView.nickUpdateView.as_view(), name="nick_update"),
     path("user/delete/", userView.DeleteView.as_view(), name="user_delete"),
 
     path("list/create/", listView.CreateView.as_view(), name="list_create"),

@@ -91,7 +91,35 @@ class UpdateView(View):
             )
             return redirect("main")
 
-                
+class nickUpdateView(View):
+    def get(self, request):
+        return render(request, "changeNick.html")
+    
+    def post(self, request):
+        updateName = request.POST["updateName"]
+
+        sessionNum = request.session.get("sessionNum")
+        notSame = "same"
+
+        try:
+            checkUser = TestUser.objects.filter(userNum = sessionNum).first()
+        except TestUser.DoesNotExist:
+            pass
+        
+        if(checkUser.userName != updateName):
+            TestUser.objects.filter(userNum = sessionNum).update(
+                    userName = updateName
+            )
+            request.session['sessionName'] = updateName
+            return redirect("main")
+        else:
+            notSame = "notSame"
+            sendData = {
+                "notSame" : notSame,
+                "preName" : updateName,
+            }
+
+            return render(request, "changeNick.html", sendData)
 
 class DeleteView(View):
 
